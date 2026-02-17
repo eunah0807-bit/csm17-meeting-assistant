@@ -72,7 +72,8 @@ def send_to_slack(token, channel, summary_data, attendants="", context=""):
         channel = f"#{channel}"
 
     # Prepare Message
-    message = f"*🎙️ 씨에스엠17 회의 기록 완료 ({datetime.now().strftime('%Y-%m-%d %H:%M')})*\n\n"
+    first_line = "🎙️ **씨에스엠17 회의 기록 완료**"
+    message = f"*{first_line}*\n\n"
     
     if attendants:
         message += f"*👥 참여자*: {attendants}\n"
@@ -225,7 +226,7 @@ if 'res_detailed' in st.session_state:
     selected_channel = st.selectbox("전송할 채널을 선택하세요", options=target_channels)
     
     # New Input Fields
-    attendants = st.text_input("참여자 명단", placeholder="예: 홍길동, 김철수, 이영희")
+    attendants = st.text_input("참여자 명단", placeholder="예: 초성민, 백승정, 김은아")
     meeting_context = st.text_area("회의 목적 및 배경", placeholder="이 회의의 목적이나 특이사항을 입력하세요")
     
     if st.button("슬랙으로 회의록 전송", type="primary"):
