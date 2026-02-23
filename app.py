@@ -237,7 +237,7 @@ if 'res_detailed' in st.session_state:
     st.divider()
     st.subheader("🟢 단계 3: 슬랙으로 전송하기")
     
-    target_channels = ["contents", "신규사업", "인사조직운영", "전사회의(파트장이상)", "팀별회의", "기타회의"]
+    target_channels = ["contents", "신규사업", "인사조직운영", "전사회의-파트장이상", "팀별회의", "기타회의"]
     selected_channel = st.selectbox("전송할 채널을 선택하세요", options=target_channels)
     
     # New Input Fields
@@ -267,4 +267,5 @@ if 'res_detailed' in st.session_state:
                     st.error(f"❌ 슬랙 전송 실패: {res.get('error')}")
                     if "channel_not_found" in str(res):
                         st.info("💡 봇이 해당 채널에 초대되어 있는지 확인하세요.")
+
 
