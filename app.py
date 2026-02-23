@@ -31,7 +31,7 @@ st.markdown("""
         margin-bottom: 2rem;
     }
     .content-box {
-        background-color: #f0f2f6;
+        background-color: #f0f2f6; 
         padding: 20px;
         border-radius: 10px;
         border: 1px solid #e0e0e0;
@@ -130,10 +130,25 @@ st.markdown('<div class="main-header">씨에스엠17 회의 비서 🎙️</div>
 # 4. Audio Recording
 st.subheader("🔴 단계 1: 회의 녹음하기")
 st.info("아래 녹음기 버튼을 눌러 회의를 시작하세요. (최대 2시간 녹음 가능)")
-audio_val = st.audio_input("여기를 눌러 녹음 시작/중단")
+audio_val = st.audio_input("여기를 눌러 녹음 시작/중단", key="meeting_mic")
 
-with st.expander("❓ 마이크가 작동하지 않나요?"):
-    st.markdown("1. 주소창 왼쪽 **(i)** 또는 **자물쇠** 아이콘 클릭\n2. 마이크 **허용** 확인\n3. 윈도우 소리 설정에서 '스테레오 믹스'가 아닌 진짜 **마이크** 선택")
+with st.expander("❓ 마이크 설정이 계속 바뀌거나 작동하지 않나요?"):
+    st.markdown("""
+    **1. 브라우저 마이크 권한 확인 (Chrome/Edge)**
+    - 주소창 왼쪽의 **자물쇠(🔒)** 또는 **설정** 아이콘을 클릭합니다.
+    - **마이크** 항목이 '허용'인지 확인하고, 만약 이미 되어 있다면 '사용 안 함'으로 바꿨다가 다시 **'허용'**으로 바꿔보세요.
+    - 팝업이 뜰 때 반드시 '허용'을 눌러야 합니다.
+
+    **2. 윈도우(Windows) 마이크 상태 점검**
+    - `윈도우 키 + S` → **'사운드 설정'** 입력/선택
+    - **'입력'** 탭에서 현재 목소리에 따라 **바(그래프)가 움직이는 장치**가 무엇인지 확인하세요.
+    - 그 장치를 **'기본 장치'**로 설정해야 합니다. (스테레오 믹스 X, 실제 마이크 이름 O)
+
+    **3. 녹음 실패 시 해결 방법 (중요!)**
+    - **페이지 새로고침(F5)**: 대부분의 일시적인 연결 오류는 새로고침으로 해결됩니다.
+    - **다른 앱 종료**: 줌(Zoom), 팀즈(Teams) 등 마이크를 쓰는 다른 앱이 켜져 있다면 종료해 주세요.
+    - **음량 체크**: 위 단계에서 음량이 계속 0~5 사이로 나온다면 마이크 하드웨어의 전원이나 연결을 확인해야 합니다.
+    """)
 
 # 5. Processing Logic
 if audio_val:
@@ -222,11 +237,11 @@ if 'res_detailed' in st.session_state:
     st.divider()
     st.subheader("🟢 단계 3: 슬랙으로 전송하기")
     
-    target_channels = ["회의록", "김은아1", "김은아2"]
+    target_channels = ["contents", "신규사업", "인사조직운영", "전사회의(파트장이상)", "팀별회의", "기타회의"]
     selected_channel = st.selectbox("전송할 채널을 선택하세요", options=target_channels)
     
     # New Input Fields
-    attendants = st.text_input("참여자 명단", placeholder="예: 초성민, 백승정, 김은아")
+    attendants = st.text_input("참여자 명단", placeholder="예: 홍길동, 김철수, 이영희")
     meeting_context = st.text_area("회의 목적 및 배경", placeholder="이 회의의 목적이나 특이사항을 입력하세요")
     
     if st.button("슬랙으로 회의록 전송", type="primary"):
