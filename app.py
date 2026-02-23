@@ -72,24 +72,24 @@ def send_to_slack(token, channel, summary_data, attendants="", context=""):
         channel = f"#{channel}"
 
     # Prepare Message
-    first_line = "🎙️ **씨에스엠17 회의 기록 완료**"
+    first_line = "🎙️ 씨에스엠17 회의 기록 완료"
     message = f"*{first_line}*\n\n"
     
     if attendants:
-        message += f"*👥 참여자*: {attendants}\n"
+        message += f"👥 참여자: {attendants}\n"
     if context:
-        message += f"*💡 회의 목적 및 배경*: {context}\n"
+        message += f"💡 회의 목적 및 배경*: {context}\n"
     
     message += "\n"
     
     if summary_data.get('three_line'):
-        message += f"*✨ 3줄 요약*\n{summary_data['three_line']}\n\n"
+        message += f"✨ 3줄 요약*\n{summary_data['three_line']}\n\n"
     
     if summary_data.get('todo'):
-        message += f"*⚡ 할 일 (To-Do)*\n{summary_data['todo']}\n\n"
+        message += f"⚡ 할 일 (To-Do)*\n{summary_data['todo']}\n\n"
         
     if summary_data.get('detailed'):
-        message += f"*📌 상세 요약*\n{summary_data['detailed']}\n\n"
+        message += f"📌 상세 요약*\n{summary_data['detailed']}\n\n"
     
     payload = {
         "channel": channel,
@@ -225,9 +225,9 @@ if 'res_detailed' in st.session_state:
     t1, t2 = st.tabs(["✨ 요약 (Summary)", "⚡ 할 일 (To-Do)"])
     
     with t1:
-        st.markdown("**[3줄 요약]**")
+        st.markdown("[3줄 요약]")
         st.info(st.session_state['res_three'])
-        st.markdown("**[상세 요약]**")
+        st.markdown("[상세 요약]")
         st.markdown(f'<div class="content-box">{st.session_state["res_detailed"]}</div>', unsafe_allow_html=True)
     
     with t2:
@@ -241,7 +241,7 @@ if 'res_detailed' in st.session_state:
     selected_channel = st.selectbox("전송할 채널을 선택하세요", options=target_channels)
     
     # New Input Fields
-    attendants = st.text_input("참여자 명단", placeholder="예: 홍길동, 김철수, 이영희")
+    attendants = st.text_input("참여자 명단", placeholder="예: 초성민, 백승정, 김은아")
     meeting_context = st.text_area("회의 목적 및 배경", placeholder="이 회의의 목적이나 특이사항을 입력하세요")
     
     if st.button("슬랙으로 회의록 전송", type="primary"):
@@ -267,3 +267,4 @@ if 'res_detailed' in st.session_state:
                     st.error(f"❌ 슬랙 전송 실패: {res.get('error')}")
                     if "channel_not_found" in str(res):
                         st.info("💡 봇이 해당 채널에 초대되어 있는지 확인하세요.")
+
